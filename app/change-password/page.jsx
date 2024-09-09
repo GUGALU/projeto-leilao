@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// Defina o esquema de validação
 const schema = z.object({
   email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
   code: z.string().nonempty("Código é obrigatório"),
@@ -38,7 +37,7 @@ export default function ChangePassword() {
 
   const onSubmit = (data) => {
     console.log(data);
-    // Lógica para redefinir a senha
+    // fazer a logica para redefinir a senha aqui meu bom
   };
 
   return (

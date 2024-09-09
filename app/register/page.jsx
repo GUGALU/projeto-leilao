@@ -42,7 +42,7 @@ export default function Register() {
 
   const onSubmit = (data) => {
     console.log(data);
-    // Lógica para criar a conta
+    // logica chamda do back e criação da conta aqui meu chapa
   };
 
   return (
