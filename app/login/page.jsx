@@ -9,6 +9,13 @@ import { useRouter } from "next/navigation";
 export default function Login() {
   const router = useRouter();
 
+  const handleLogin = () => {
+    const token = "12345"; 
+    localStorage.setItem("token", token); 
+
+    router.push("/");
+  };
+
   return (
     <div className="flex justify-center my-10 mx-auto rounded-md">
       <div className="flex flex-col w-1/3 rounded-md shadow-md shadow-gray-700 border border-brand-gray-medium p-10 gap-8">
@@ -25,7 +32,7 @@ export default function Login() {
           <Button
             className="w-full"
             onClick={() => {
-              console.log("login");
+              handleLogin();
             }}
           >
             Entrar
