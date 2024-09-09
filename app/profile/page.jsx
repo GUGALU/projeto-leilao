@@ -53,6 +53,7 @@ export default function Profile() {
 
   const onSubmit = (data) => {
     console.log(data);
+    // submit pro back
   };
 
   const handleFileChange = (e) => {
@@ -119,7 +120,6 @@ export default function Profile() {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          {/* Coluna 1 */}
           <div>
             <Input
               {...register("name")}
