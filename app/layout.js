@@ -1,4 +1,3 @@
-import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Header } from "@/components/header/header";

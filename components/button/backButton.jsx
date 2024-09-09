@@ -1,14 +1,15 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { t } from "i18next";
+import { useRouter } from "next/navigation";
 
 const BackButton = () => {
+  const router = useRouter();
   return (
     <Button
       onClick={() => {
-        window.history.back();
+        router.back();
       }}
-      variant="outline"
     >
       {t("Back")}Voltar
     </Button>
