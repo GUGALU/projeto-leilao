@@ -6,6 +6,7 @@ import { BackButton } from "../button/backButton";
 
 const Header = () => {
   const router = useRouter();
+  const [disable, setDisable] = useState();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,6 +22,7 @@ const Header = () => {
             <Button
               onClick={() => router.push("/")}
               className="hidden h-10 md:flex"
+              disabled={disable}
             >
               <span>Home</span>
             </Button>

@@ -100,13 +100,8 @@ export default function Profile() {
   return (
     <div className="flex justify-center my-10 mx-auto rounded-md">
       <div className="flex flex-col w-full max-w-2xl rounded-md shadow-md border border-gray-300 p-6 gap-6">
-        <div className="flex justify-center">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="mb-2"
-          />
+        <h1 className="text-3xl font-bold flex justify-center">Perfil</h1>
+        <div className="flex justify-center items-center gap-6">
           {photoPreview && (
             <img
               src={photoPreview}
@@ -114,6 +109,12 @@ export default function Profile() {
               className="w-32 h-32 object-cover rounded-full mb-4"
             />
           )}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="mb-2"
+          />
         </div>
 
         <form
