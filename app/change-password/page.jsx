@@ -8,22 +8,27 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { resetPassword } from "@/service/authService";
 
-const schema = z.object({
-  email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
-  code: z.string().nonempty("Código é obrigatório"),
-  password: z
-    .string()
-    .min(6, "A senha deve ter pelo menos 6 caracteres")
-    .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
-    .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
-    .regex(/[0-9]/, "A senha deve conter pelo menos um número")
-    .regex(/[!@#$%^&*(),.?":{}|<>]/, "A senha deve conter pelo menos um caractere especial"),
-  confirmPassword: z.string().min(6, "A confirmação de senha deve ter pelo menos 6 caracteres"),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
-  path: ["confirmPassword"],
-});
+const schema = z
+  .object({
+    email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
+    code: z.string().nonempty("Código é obrigatório"),
+    password: z
+      .string()
+      .min(6, "A senha deve ter pelo menos 6 caracteres")
+      .regex(/[A-Z]/, "A senha deve conter pelo menos uma letra maiúscula")
+      .regex(/[a-z]/, "A senha deve conter pelo menos uma letra minúscula")
+      .regex(/[0-9]/, "A senha deve conter pelo menos um número")
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, "A senha deve conter pelo menos um caractere especial"),
+    confirmPassword: z
+      .string()
+      .min(6, "A confirmação de senha deve ter pelo menos 6 caracteres"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não coincidem",
+    path: ["confirmPassword"],
+  });
 
 export default function ChangePassword() {
   const router = useRouter();
@@ -35,9 +40,15 @@ export default function ChangePassword() {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // fazer a logica para redefinir a senha aqui meu bom
+  const onSubmit = async (data) => {
+    try {
+      await resetPassword(data.email, data.code, data.password);
+      alert("Senha redefinida com sucesso!");
+      router.push("/login");
+    } catch (error) {
+      console.error("Erro ao redefinir senha:", error);
+      alert("Erro ao redefinir senha. Verifique os dados e tente novamente.");
+    }
   };
 
   return (
@@ -52,7 +63,9 @@ export default function ChangePassword() {
               variant="form"
               className="w-full"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
           <div>
             <Input
@@ -61,7 +74,9 @@ export default function ChangePassword() {
               variant="form"
               className="w-full"
             />
-            {errors.code && <p className="text-red-500 text-sm">{errors.code.message}</p>}
+            {errors.code && (
+              <p className="text-red-500 text-sm">{errors.code.message}</p>
+            )}
           </div>
           <div>
             <PasswordInput
@@ -70,7 +85,9 @@ export default function ChangePassword() {
               variant="form"
               className="w-full"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
           <div>
             <PasswordInput
@@ -79,7 +96,11 @@ export default function ChangePassword() {
               variant="form"
               className="w-full"
             />
-            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
           <div className="flex gap-2">
             <Button
@@ -91,10 +112,7 @@ export default function ChangePassword() {
             >
               Cancelar
             </Button>
-            <Button
-              type="submit"
-              className="w-full"
-            >
+            <Button type="submit" className="w-full">
               Redefinir senha
             </Button>
           </div>

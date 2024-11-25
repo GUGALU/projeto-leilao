@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUser } from "@/service/authService";
 
 const schema = z
   .object({
@@ -36,13 +37,17 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // logica chamda do back e criação da conta aqui meu chapa
+  const onSubmit = async (data) => {
+    try {
+      await registerUser({ email: data.email, password: data.password });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
