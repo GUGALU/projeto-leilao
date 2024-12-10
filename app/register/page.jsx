@@ -11,6 +11,7 @@ import { registerUser } from "@/service/authService";
 
 const schema = z
   .object({
+    name: z.string().nonempty("Nome é obrigatório"),
     email: z.string().email("Email inválido").nonempty("Email é obrigatório"),
     password: z
       .string()
@@ -37,14 +38,13 @@ export default function Register() {
     register,
     handleSubmit,
     formState: { errors },
-    setError,
   } = useForm({
     resolver: zodResolver(schema),
   });
 
   const onSubmit = async (data) => {
     try {
-      await registerUser({ email: data.email, password: data.password });
+      await registerUser({ name: data.name, email: data.email, password: data.password });
     } catch (error) {
       console.error(error);
     }
@@ -55,6 +55,17 @@ export default function Register() {
       <div className="flex flex-col w-1/3 rounded-md shadow-md shadow-gray-700 border border-brand-gray-medium p-10 gap-8">
         <h1 className="text-2xl font-bold">Register</h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div>
+            <Input
+              {...register("name")}
+              placeholder="Nome Completo"
+              variant="form"
+              className="w-full"
+            />
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
+            )}
+          </div>
           <div>
             <Input
               {...register("email")}

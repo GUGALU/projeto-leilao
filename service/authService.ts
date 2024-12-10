@@ -60,9 +60,9 @@ export const registerUser = async (user: any) => {
   }
 };
 
-export const sendVerificationEmail = async (email: string) => {
+export const sendVerificationEmail = async (data) => {
   try {
-    const response = await api.post('/auth/send-code', email);
+    const response = await api.post('/auth/send-code', data);
     return response.data;
   } catch (error) {
     console.error('Error sending verification email:', error);
